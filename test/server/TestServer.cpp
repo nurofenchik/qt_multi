@@ -1,6 +1,10 @@
 #include <gtest/gtest.h>
-#include <QTcpSocket>
+
+#include <QDataStream>
+#include <QHostAddress>
 #include <QSignalSpy>
+#include <QTcpSocket>
+
 #include "../../src/server/tserver.h"
 
 

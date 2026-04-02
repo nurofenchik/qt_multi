@@ -1,16 +1,12 @@
-#include <QWidget>
-#include <QTcpSocket>
 #include <QDialog>
 #include <QLabel>
-#include <QPushButton>
-#include <QDialogButtonBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QMutex>
-#include <QThread>
-#include <QComboBox>
 #include <QLineEdit>
-#include <QWaitCondition>
+#include <QPushButton>
+#include <QTcpSocket>
+#include <QVBoxLayout>
+#include <QWidget>
+
+class QDialogButtonBox;
 
 
 class Worker : public QObject {
@@ -21,14 +17,14 @@ public:
     ~Worker() = default;
 
 public slots:
-    void process();
+    void Process();
 
 signals:
     void finished(QString fortune);
     void error(QString err);
 
 private:
-    QString host = "192.168.22.157";
+    QString host = QStringLiteral("127.0.0.1");
     int port;
     QTcpSocket socket;
 };
@@ -43,14 +39,14 @@ public:
     QString getStatusLabel();
     void PrintFort();
 private slots:
-    void requestNewFortune();
+    void RequestNewFortune();
     void Fort();
-    void showFortune(QString nextFortune);
-    void displayError(int socketError, const QString &message);
-    void enableGetFortuneButton();
+    void ShowFortune(QString nextFortune);
+    void DisplayError(const QString &message);
+    void EnableGetFortuneButton();
 
 private:
-    QString host = "192.168.22.157";
+    QString host = QStringLiteral("127.0.0.1");
     int port = 4242;
     QTcpSocket socket;
     QString currentFortune;

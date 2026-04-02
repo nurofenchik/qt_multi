@@ -1,13 +1,8 @@
-#include <QCoreApplication>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QRandomGenerator>
-#include <QDataStream>
-#include <QThread>
-#include <QMessageBox>
+#include <QStringList>
+
 #include <QRunnable>
-#include <QThreadPool>
-#include <QNetworkInterface>
 
 class FortuneThread : public QObject, public QRunnable
 {

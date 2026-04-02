@@ -1,15 +1,9 @@
-#include <QCoreApplication>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QRandomGenerator>
-#include <QDataStream>
-#include <QThread>
-#include <iostream>
-#include <QMessageBox>
-#include <QRunnable>
-#include <QThreadPool>
-#include <QNetworkInterface>
 #include "tserver.h"
+
+#include <QDataStream>
+#include <QRandomGenerator>
+#include <QTcpSocket>
+#include <QThreadPool>
 
 
 void FortuneThread::run() {

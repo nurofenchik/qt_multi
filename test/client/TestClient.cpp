@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
+
 #include <QApplication>
-#include <QTcpSocket>
 #include <QSignalSpy>
-#include <QTest>
+#include <QThread>
+
 #include "../../src/client/tclient.h"
 
 // Test suite for the BlockingClient
@@ -46,7 +46,7 @@ protected:
   TEST_F(WorkerTest, ConnectionFailureEmitsError) {
       QSignalSpy errorSpy(worker, SIGNAL(error(QString)));
       thread->start();
-      worker->process();
+      worker->Process();
       EXPECT_EQ(errorSpy.count(), 2);
       EXPECT_EQ(errorSpy.takeFirst().at(0).toString(), "Connection failed!");
   }
