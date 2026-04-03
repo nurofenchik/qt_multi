@@ -1,12 +1,14 @@
 #include <QDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
+#include <QObject>
+#include <QString>
 #include <QTcpSocket>
-#include <QVBoxLayout>
-#include <QWidget>
 
 class QDialogButtonBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QVBoxLayout;
+class QWidget;
 
 
 class Worker : public QObject {
@@ -17,7 +19,7 @@ public:
     ~Worker() = default;
 
 public slots:
-    void Process();
+    void process();
 
 signals:
     void finished(QString fortune);
@@ -37,13 +39,13 @@ class BlockingClient : public QDialog
 public:
     BlockingClient(QWidget *parent = nullptr);
     QString getStatusLabel();
-    void PrintFort();
+    void printFort();
 private slots:
-    void RequestNewFortune();
-    void Fort();
-    void ShowFortune(QString nextFortune);
-    void DisplayError(const QString &message);
-    void EnableGetFortuneButton();
+    void requestNewFortune();
+    void fort();
+    void showFortune(QString nextFortune);
+    void displayError(const QString &message);
+    void enableGetFortuneButton();
 
 private:
     QString host = QStringLiteral("127.0.0.1");

@@ -46,7 +46,7 @@ protected:
   TEST_F(WorkerTest, ConnectionFailureEmitsError) {
       QSignalSpy errorSpy(worker, SIGNAL(error(QString)));
       thread->start();
-      worker->Process();
+      worker->process();
       EXPECT_EQ(errorSpy.count(), 2);
       EXPECT_EQ(errorSpy.takeFirst().at(0).toString(), "Connection failed!");
   }

@@ -2,11 +2,15 @@
 
 #include <QDataStream>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QString>
 #include <QThread>
+#include <QVBoxLayout>
 #include <iostream>
 
-void Worker::Process() {
+void Worker::process() {
   socket.abort();
   socket.connectToHost(host, port); // Connect to the server
   if (!socket.waitForConnected(3000)) {
@@ -49,12 +53,12 @@ BlockingClient::BlockingClient(QWidget *parent) : QDialog(parent),
     boxLayout->addWidget(getFortuneButton);
     setLayout(boxLayout);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    connect(getFortuneButton, &QPushButton::clicked, this, &BlockingClient::RequestNewFortune);
+    connect(getFortuneButton, &QPushButton::clicked, this, &BlockingClient::requestNewFortune);
     hostLineEdit->setText(host);
     portLineEdit->setText(QString::number(port));
   };
 
-  void BlockingClient::PrintFort(){
+  void BlockingClient::printFort(){
     std::cout<< currentFortune.toStdString() << std::endl;
   }
 
@@ -62,32 +66,32 @@ BlockingClient::BlockingClient(QWidget *parent) : QDialog(parent),
     return this->statusLabel->text();
   };
 
-  void BlockingClient::RequestNewFortune() {
+  void BlockingClient::requestNewFortune() {
     getFortuneButton->setEnabled(false);
     host = hostLineEdit->text();
     port = portLineEdit->text().toInt();
-    this->Fort();
+    this->fort();
   }
 
-  void BlockingClient::Fort() {
+  void BlockingClient::fort() {
     QThread* thread = new QThread;
     Worker* worker = new Worker(host, port);
     worker->moveToThread(thread);
-    connect(worker, &Worker::error, this, &BlockingClient::DisplayError);
-    connect(thread, &QThread::started, worker, &Worker::Process);
+    connect(worker, &Worker::error, this, &BlockingClient::displayError);
+    connect(thread, &QThread::started, worker, &Worker::process);
     connect(worker, &Worker::finished, thread, &QThread::quit);
-    connect(worker, &Worker::finished, this, &BlockingClient::ShowFortune);
+    connect(worker, &Worker::finished, this, &BlockingClient::showFortune);
     connect(worker, &Worker::finished, worker, &QObject::deleteLater);
     connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
   };
-    void BlockingClient::ShowFortune(QString nextFortune){
+    void BlockingClient::showFortune(QString nextFortune){
           currentFortune = nextFortune;
           statusLabel->setText(currentFortune);
           getFortuneButton->setEnabled(true);
     };
-    void BlockingClient::DisplayError(const QString &/*message*/) {}
-    void BlockingClient::EnableGetFortuneButton() {  getFortuneButton->setEnabled(true); };
+    void BlockingClient::displayError(const QString &/*message*/) {}
+    void BlockingClient::enableGetFortuneButton() {  getFortuneButton->setEnabled(true); };
 
 
 
